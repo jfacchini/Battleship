@@ -2,6 +2,7 @@
 
 namespace Jfacchini\Battleship\Tests;
 
+use Jfacchini\Battleship\BoardGame;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -12,6 +13,8 @@ class BoardGameTest extends PHPUnit_Framework_TestCase
 {
     public function testAutoload()
     {
-        $this->assertTrue(true);
+        $boardGame = new BoardGame();
+
+        $this->assertCount(BoardGame::SIZE, $boardGame->getBoard());
     }
 }
