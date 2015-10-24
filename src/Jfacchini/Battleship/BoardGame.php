@@ -1,6 +1,9 @@
 <?php
 
 namespace Jfacchini\Battleship;
+use Jfacchini\Battleship\Ship\Battleship;
+use Jfacchini\Battleship\Ship\Destroyer;
+use Jfacchini\Battleship\Ship\Ship;
 
 /**
  * Class BoardGame
@@ -14,19 +17,20 @@ class BoardGame
     /** @var array */
     private $board;
 
+    /** @var Ship[] */
+    private $ships;
+
     public function __construct()
     {
         $this->board = [];
         for ($i = 0; $i < self::SIZE; $i++) {
             $this->board[] = [];
         }
-    }
 
-    /**
-     * @return array
-     */
-    public function getBoard()
-    {
-        return $this->board;
+        $this->ships = [];
+        $this->ships[] = Ship::createBattleship();
+        for ($i = 0; $i < 2; $i++) {
+            $this->ships[] = Ship::createDestroyer();
+        }
     }
 }
