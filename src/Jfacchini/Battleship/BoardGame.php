@@ -33,4 +33,20 @@ class BoardGame
             $this->ships[] = Ship::createDestroyer();
         }
     }
+
+    /**
+     * Check if all ships are sunk
+     *
+     * @return bool
+     */
+    public function isFinished()
+    {
+        foreach ($this->ships as $ship) {
+            if (!$ship->isSunk()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

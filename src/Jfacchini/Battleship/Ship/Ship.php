@@ -8,9 +8,9 @@ namespace Jfacchini\Battleship\Ship;
  */
 class Ship
 {
-    const BATTLESHIP_MAX_SQUARE = 5;
+    const BATTLESHIP_MAX_SQUARES = 5;
 
-    const DESTROYER_MAX_SQUARE  = 4;
+    const DESTROYER_MAX_SQUARES  = 4;
 
     /** @var int */
     private $countHit;
@@ -23,6 +23,7 @@ class Ship
      */
     public function __construct($maxSquares)
     {
+        $this->countHit   = 0;
         $this->maxSquares = $maxSquares;
     }
 
@@ -51,7 +52,7 @@ class Ship
      */
     public static function createBattleship()
     {
-        return new Ship(self::BATTLESHIP_MAX_SQUARE);
+        return new Ship(self::BATTLESHIP_MAX_SQUARES);
     }
 
     /**
@@ -61,6 +62,6 @@ class Ship
      */
     public static function createDestroyer()
     {
-        return new Ship(self::DESTROYER_MAX_SQUARE);
+        return new Ship(self::DESTROYER_MAX_SQUARES);
     }
 }

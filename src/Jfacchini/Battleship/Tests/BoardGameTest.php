@@ -29,13 +29,13 @@ class BoardGameTest extends PHPUnit_Framework_TestCase
         $battleship = $ships[0];
         $maxSquaresProp = new \ReflectionProperty($battleship, 'maxSquares');
         $maxSquaresProp->setAccessible(true);
-        $this->assertEquals(Ship::BATTLESHIP_MAX_SQUARE, $maxSquaresProp->getValue($battleship));
+        $this->assertEquals(Ship::BATTLESHIP_MAX_SQUARES, $maxSquaresProp->getValue($battleship));
 
         for ($i = 1; $i < 3; $i++) {
             $destroyer = $ships[$i];
             $maxSquaresProp = new \ReflectionProperty($destroyer, 'maxSquares');
             $maxSquaresProp->setAccessible(true);
-            $this->assertEquals(Ship::DESTROYER_MAX_SQUARE, $maxSquaresProp->getValue($destroyer));
+            $this->assertEquals(Ship::DESTROYER_MAX_SQUARES, $maxSquaresProp->getValue($destroyer));
         }
     }
 }
