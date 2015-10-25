@@ -52,11 +52,23 @@ TEMPLATE;
 
     if ($game->isFinished()) {
         $session->remove('game');
+        $template = <<<TEMPLATE
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Battleship game</title>
+    </head>
+    <body>
+    Well done! You completed the game in {{N}} shots
+    </body>
+</html>
+TEMPLATE;
+        $template = str_replace('{{N}}', $game->getNbShots(), $template);
     } else {
         $session->set('game', $game);
     }
 
-    return $result;
+    return $template;
 });
 
 $app->post('/hit', function(Request $request) use ($app) {

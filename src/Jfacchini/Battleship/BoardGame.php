@@ -29,6 +29,9 @@ class BoardGame
     /** @var Ship[] */
     private $ships;
 
+    /** @var int */
+    private $nbShots;
+
     public function __construct()
     {
         $this->ships = [];
@@ -36,6 +39,15 @@ class BoardGame
         for ($i = 2; $i < 4; $i++) {
             $this->ships[] = Ship::createDestroyer($i);
         }
+        $this->nbShots = 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbShots()
+    {
+        return $this->nbShots;
     }
 
     /**
@@ -341,6 +353,7 @@ class BoardGame
             /** @var Ship $ship */
             $ship = $this->ships[$choosenSquare - 1];
             $ship->hit();
+            $this->nbShots++;
 
             if ($ship->isSunk()) {
                 return '*** SUNK ***';
@@ -350,6 +363,7 @@ class BoardGame
         switch ($choosenSquare) {
             case self::FREE:
                 $this->board[$row][$col] = self::MISS;
+                $this->nbShots++;
             case self::MISS:
                 return '*** MISS ***';
         }
