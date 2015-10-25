@@ -8,10 +8,15 @@ Installation
 ------------
 
 ```bash
-composer install
+$ composer install
 ```
 
 Run the game
 ------------
 
-Browse the file `web/index.php`
+Launch the web server
+```bash
+$ php -S localhost:8080 -t web web/index.php
+```
+
+Browse the url `http://localhost:8080/`

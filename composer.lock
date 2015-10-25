@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b9aa5fa779c742bc0b077d6453fe6a7f",
-    "content-hash": "50f179209fb4b5823e081c30927742f7",
+    "hash": "017f3d437362300ef17e658f3b511015",
+    "content-hash": "e175746f77b249aebc09015dac61dcad",
     "packages": [
         {
             "name": "pimple/pimple",
@@ -1530,6 +1530,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^5.6"
+    },
     "platform-dev": []
 }
