@@ -1,6 +1,8 @@
 <?php
 
 namespace Jfacchini\Battleship;
+
+use Jfacchini\Battleship\Exception\HitException;
 use Jfacchini\Battleship\Ship\Ship;
 
 /**
@@ -304,5 +306,44 @@ class BoardGame
         }
 
         return false;
+    }
+
+    /**
+     * Try to hit with a given square
+     *
+     * @param  string $square
+     * @return string
+     * @throws HitException
+     */
+    public function hit($square)
+    {
+        if (!preg_match('/^[a-jA-J]{1}([1-9]{1}|10)$/', $square)) {
+            throw new HitException($square.' is not a valid input');
+        }
+
+        $row = ord(substr(strtoupper($square), 0, 1)) - 65;
+        $col = intval(substr($square, 1)) - 1;
+
+        /** @var int $choosenSquare */
+        $choosenSquare = $this->board[$row][$col];
+        if ($choosenSquare > 0) {
+            $this->board[$row][$col] = self::HIT;
+            /** @var Ship $ship */
+            $ship = $this->ships[$choosenSquare];
+            $ship->hit();
+
+            if ($ship->isSunk()) {
+                return '*** SUNK ***';
+            }
+        }
+
+        switch ($choosenSquare) {
+            case self::FREE:
+                $this->board[$row][$col] = self::MISS;
+            case self::MISS:
+                return '*** MISS ***';
+        }
+
+        return '*** HIT ***';
     }
 }

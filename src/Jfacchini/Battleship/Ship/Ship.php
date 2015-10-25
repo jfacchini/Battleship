@@ -8,8 +8,10 @@ namespace Jfacchini\Battleship\Ship;
  */
 class Ship
 {
+    /** The size of a battleship */
     const BATTLESHIP_SIZE = 5;
 
+    /** The size of a destroyer */
     const DESTROYER_SIZE  = 4;
 
     /** @var int */
@@ -22,8 +24,8 @@ class Ship
     private $size;
 
     /**
-     * @param $id
-     * @param $size
+     * @param int $id
+     * @param int $size
      */
     public function __construct($id, $size)
     {

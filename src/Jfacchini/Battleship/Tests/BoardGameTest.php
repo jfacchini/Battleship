@@ -99,4 +99,60 @@ Board;
     }
 
     //TODO: test rendering a board with ships
+
+    public function testHitShip()
+    {
+        $board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 2, 2, 2, 2, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 2, 2, 2, 2, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        $boardGame = new BoardGame();
+        $boardProp = new \ReflectionProperty($boardGame, 'board');
+        $boardProp->setAccessible(true);
+        $boardProp->setValue($boardGame, $board);
+
+        $msg = $boardGame->hit('A5');
+        $this->assertEquals('*** MISS ***', $msg);
+        $msg = $boardGame->hit('a6');
+        $this->assertEquals('*** MISS ***', $msg);
+        $msg = $boardGame->hit('I3');
+        $this->assertEquals('*** HIT ***', $msg);
+        $boardGame->hit('I4');
+        $boardGame->hit('i5');
+        $msg = $boardGame->hit('i6');
+        $this->assertEquals('*** SUNK ***', $msg);
+
+        $board = [
+            [0, 0, 0, 0, BoardGame::MISS, BoardGame::MISS, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 2, 2, 2, 2, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, BoardGame::HIT, BoardGame::HIT, BoardGame::HIT, BoardGame::HIT, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        $this->assertEquals($board, $boardProp->getValue($boardGame));
+    }
+
+    /**
+     * @expectedException \Jfacchini\Battleship\Exception\HitException
+     */
+    public function testBadHit()
+    {
+        $boardGame = new BoardGame();
+        $boardGame->hit('J01');
+    }
 }
