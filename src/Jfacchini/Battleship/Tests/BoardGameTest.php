@@ -95,7 +95,7 @@ I . . . . . . . . . .
 J . . . . . . . . . .
 Board;
 
-        $this->assertEquals($expected, $boardGame->render());
+        $this->assertEquals($expected, $boardGame->render(false));
     }
 
     //TODO: test rendering a board with ships

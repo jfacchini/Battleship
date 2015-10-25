@@ -20,3 +20,10 @@ $ php -S localhost:8080 -t web web/index.php
 ```
 
 Browse the url `http://localhost:8080/`
+
+Run tests
+---------
+
+```bash
+$ vendor/bin/phpunit
+```
