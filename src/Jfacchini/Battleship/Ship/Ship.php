@@ -8,23 +8,44 @@ namespace Jfacchini\Battleship\Ship;
  */
 class Ship
 {
-    const BATTLESHIP_MAX_SQUARES = 5;
+    const BATTLESHIP_SIZE = 5;
 
-    const DESTROYER_MAX_SQUARES  = 4;
+    const DESTROYER_SIZE  = 4;
+
+    /** @var int */
+    private $id;
 
     /** @var int */
     private $countHit;
 
     /** @var int */
-    private $maxSquares;
+    private $size;
 
     /**
-     * @param $maxSquares
+     * @param $id
+     * @param $size
      */
-    public function __construct($maxSquares)
+    public function __construct($id, $size)
     {
+        $this->id         = $id;
         $this->countHit   = 0;
-        $this->maxSquares = $maxSquares;
+        $this->size = $size;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 
     /**
@@ -42,26 +63,28 @@ class Ship
      */
     public function isSunk()
     {
-        return $this->countHit < $this->maxSquares;
+        return $this->countHit >= $this->size;
     }
 
     /**
      * Create a new battleship
      *
+     * @param $id
      * @return Ship
      */
-    public static function createBattleship()
+    public static function createBattleship($id)
     {
-        return new Ship(self::BATTLESHIP_MAX_SQUARES);
+        return new Ship($id, self::BATTLESHIP_SIZE);
     }
 
     /**
      * Create a new destroyer
      *
+     * @param $id
      * @return Ship
      */
-    public static function createDestroyer()
+    public static function createDestroyer($id)
     {
-        return new Ship(self::DESTROYER_MAX_SQUARES);
+        return new Ship($id, self::DESTROYER_SIZE);
     }
 }

@@ -19,6 +19,7 @@ $app->get('/', function() use ($app) {
     $game = $session->get('game');
     if (is_null($game)) {
         $game = new BoardGame();
+        $game->init();
     }
 
     ob_start();

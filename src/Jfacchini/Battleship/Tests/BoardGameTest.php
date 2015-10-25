@@ -16,26 +16,61 @@ class BoardGameTest extends PHPUnit_Framework_TestCase
     {
         $boardGame = new BoardGame();
 
-        $boardProp = new \ReflectionProperty($boardGame, 'board');
-        $boardProp->setAccessible(true);
-        $this->assertCount(BoardGame::SIZE, $boardProp->getValue($boardGame));
-
         $shipsProp = new \ReflectionProperty($boardGame, 'ships');
         $shipsProp->setAccessible(true);
         $ships = $shipsProp->getValue($boardGame);
 
         $this->assertCount(3, $ships);
 
+        /** @var Ship $battleship */
         $battleship = $ships[0];
-        $maxSquaresProp = new \ReflectionProperty($battleship, 'maxSquares');
-        $maxSquaresProp->setAccessible(true);
-        $this->assertEquals(Ship::BATTLESHIP_MAX_SQUARES, $maxSquaresProp->getValue($battleship));
+        $sizeProp = new \ReflectionProperty($battleship, 'size');
+        $sizeProp->setAccessible(true);
+        $this->assertEquals(Ship::BATTLESHIP_SIZE, $sizeProp->getValue($battleship));
+        $this->assertFalse($battleship->isSunk());
 
         for ($i = 1; $i < 3; $i++) {
+            /** @var Ship $destroyer */
             $destroyer = $ships[$i];
-            $maxSquaresProp = new \ReflectionProperty($destroyer, 'maxSquares');
-            $maxSquaresProp->setAccessible(true);
-            $this->assertEquals(Ship::DESTROYER_MAX_SQUARES, $maxSquaresProp->getValue($destroyer));
+            $sizeProp = new \ReflectionProperty($destroyer, 'size');
+            $sizeProp->setAccessible(true);
+            $this->assertEquals(Ship::DESTROYER_SIZE, $sizeProp->getValue($destroyer));
+            $this->assertFalse($destroyer->isSunk());
         }
+    }
+
+    public function testInitBoard()
+    {
+        $boardGame = new BoardGame();
+        $boardGame->init();
+
+        $boardProp = new \ReflectionProperty($boardGame, 'board');
+        $boardProp->setAccessible(true);
+        $board = $boardProp->getValue($boardGame);
+        $this->assertCount(BoardGame::SIZE, $board);
+
+        $countShipPieces = 0;
+        foreach ($board as $columns) {
+            $this->assertCount(BoardGame::SIZE, $columns);
+            foreach ($columns as $value) {
+                if ($value > 0) {
+                    $countShipPieces++;
+                }
+            }
+        }
+
+        $shipsProp = new \ReflectionProperty($boardGame, 'ships');
+        $shipsProp->setAccessible(true);
+        $ships = $shipsProp->getValue($boardGame);
+
+        $countAvailableShipPieces = 0;
+        /** @var Ship $ship */
+        foreach ($ships as $ship) {
+            $sizeProp = new \ReflectionProperty($ship, 'size');
+            $sizeProp->setAccessible(true);
+            $countAvailableShipPieces += $sizeProp->getValue($ship);
+        }
+
+        $this->assertEquals($countAvailableShipPieces, $countShipPieces);
     }
 }
