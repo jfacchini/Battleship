@@ -41,9 +41,10 @@ class BoardGame
     /**
      * Render the current board
      *
+     * @param  bool $cheat
      * @return string
      */
-    public function render()
+    public function render($cheat)
     {
         $boardString = ' ';
         for ($i = 0; $i < self::SIZE; $i++) {
@@ -54,7 +55,7 @@ class BoardGame
         foreach ($this->board as $i => $rows) {
             $boardString .= chr($i+65);
             foreach ($rows as $j => $col) {
-                $boardString .= ' '.$this->renderSquare($this->board[$i][$j]);
+                $boardString .= ' '.$this->renderSquare($this->board[$i][$j], $cheat);
             }
             if ($i < (self::SIZE - 1)) {
                 $boardString .= "\n";
@@ -67,11 +68,20 @@ class BoardGame
     /**
      * Render a specific square
      *
-     * @param int $square
+     * @param  int  $square
+     * @param  bool $cheat
      * @return string
      */
-    private function renderSquare($square)
+    private function renderSquare($square, $cheat)
     {
+        if ($cheat) {
+            if ($square > 0) {
+                return 'X';
+            } else {
+                return ' ';
+            }
+        }
+
         switch ($square) {
             case self::HIT:
                 return 'X';
@@ -329,7 +339,7 @@ class BoardGame
         if ($choosenSquare > 0) {
             $this->board[$row][$col] = self::HIT;
             /** @var Ship $ship */
-            $ship = $this->ships[$choosenSquare];
+            $ship = $this->ships[$choosenSquare - 1];
             $ship->hit();
 
             if ($ship->isSunk()) {
