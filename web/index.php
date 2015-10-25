@@ -23,6 +23,7 @@ $app->get('/', function() use ($app) {
     }
 
     ob_start();
+    echo '<pre>'.$game->render().'</pre>';
     var_dump($game);
     $result = ob_get_clean();
 

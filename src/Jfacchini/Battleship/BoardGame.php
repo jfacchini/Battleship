@@ -37,6 +37,50 @@ class BoardGame
     }
 
     /**
+     * Render the current board
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $boardString = ' ';
+        for ($i = 0; $i < self::SIZE; $i++) {
+            $boardString .= ' '.($i+1);
+        }
+        $boardString .= "\n";
+
+        foreach ($this->board as $i => $rows) {
+            $boardString .= chr($i+65);
+            foreach ($rows as $j => $col) {
+                $boardString .= ' '.$this->renderSquare($this->board[$i][$j]);
+            }
+            if ($i < (self::SIZE - 1)) {
+                $boardString .= "\n";
+            }
+        }
+
+        return $boardString;
+    }
+
+    /**
+     * Render a specific square
+     *
+     * @param int $square
+     * @return string
+     */
+    private function renderSquare($square)
+    {
+        switch ($square) {
+            case self::HIT:
+                return 'X';
+            case self::MISS:
+                return '-';
+            default:
+                return '.';
+        }
+    }
+
+    /**
      * Check if all ships are sunk
      *
      * @return bool

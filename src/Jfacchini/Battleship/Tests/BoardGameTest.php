@@ -73,4 +73,30 @@ class BoardGameTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($countAvailableShipPieces, $countShipPieces);
     }
+
+    public function testRenderEmptyBoard()
+    {
+        $boardGame = new BoardGame();
+        $clearMeth = new \ReflectionMethod($boardGame, 'clear');
+        $clearMeth->setAccessible(true);
+        $clearMeth->invoke($boardGame);
+
+        $expected = <<<Board
+  1 2 3 4 5 6 7 8 9 10
+A . . . . . . . . . .
+B . . . . . . . . . .
+C . . . . . . . . . .
+D . . . . . . . . . .
+E . . . . . . . . . .
+F . . . . . . . . . .
+G . . . . . . . . . .
+H . . . . . . . . . .
+I . . . . . . . . . .
+J . . . . . . . . . .
+Board;
+
+        $this->assertEquals($expected, $boardGame->render());
+    }
+
+    //TODO: test rendering a board with ships
 }
